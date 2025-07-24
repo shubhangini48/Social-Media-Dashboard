@@ -1,0 +1,8 @@
+Form validation (frontend + backend)
+
+JWT expiration and refresh token system
+
+Rate limiting (express-rate-limit)
+
+Environment variables for API keys (.env)
+
