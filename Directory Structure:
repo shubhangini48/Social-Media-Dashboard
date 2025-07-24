@@ -1,0 +1,8 @@
+/client               # React App
+  └── /components
+  └── /pages
+/server               # Node.js + Express API
+  └── /routes
+  └── /controllers
+  └── /services        # API integrations
+  └── /models          # PostgreSQL queries
