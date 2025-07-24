@@ -23,4 +23,14 @@ A full-stack web application that allows users to track, analyze, and schedule p
 ---
 
 ## 📁 Project Structure
-
+project-root/
+├── client/ # React frontend
+│ └── src/pages/ # Pages: Dashboard, Login, Signup, Scheduler, Analytics
+│
+├── server/ # Node backend
+│ ├── controllers/ # Auth and Scheduler logic
+│ ├── routes/ # Route handlers
+│ ├── db.js # PostgreSQL connection
+│ └── index.js # Express server entry
+│
+└── .env # Environment variables
