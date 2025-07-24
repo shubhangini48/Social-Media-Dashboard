@@ -1,0 +1,126 @@
+// === client/src/App.js ===
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Scheduler from "./pages/Scheduler";
+import Analytics from "./pages/Analytics";
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/scheduler" element={<Scheduler />} />
+        <Route path="/analytics" element={<Analytics />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+
+// === server/index.js ===
+const express = require("express");
+const cors = require("cors");
+const authRoutes = require("./routes/authRoutes");
+const postRoutes = require("./routes/postRoutes");
+const metricRoutes = require("./routes/metricRoutes");
+const schedulerRoutes = require("./routes/schedulerRoutes");
+require("dotenv").config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.use("/api/auth", authRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/metrics", metricRoutes);
+app.use("/api/scheduler", schedulerRoutes);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// === server/routes/authRoutes.js ===
+const express = require("express");
+const router = express.Router();
+const { signup, login } = require("../controllers/authController");
+
+router.post("/signup", signup);
+router.post("/login", login);
+
+module.exports = router;
+
+// === server/controllers/authController.js ===
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const db = require("../db");
+
+exports.signup = async (req, res) => {
+  const { email, password } = req.body;
+  const hashed = await bcrypt.hash(password, 10);
+  await db.query("INSERT INTO users (email, password_hash) VALUES ($1, $2)", [email, hashed]);
+  res.status(201).send("User created");
+};
+
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+  if (!user.rows.length || !(await bcrypt.compare(password, user.rows[0].password_hash))) {
+    return res.status(401).send("Invalid credentials");
+  }
+  const token = jwt.sign({ id: user.rows[0].id }, process.env.JWT_SECRET);
+  res.json({ token });
+};
+
+// === server/controllers/schedulerController.js ===
+const db = require("../db");
+const cron = require("node-cron");
+
+// Store a post to be scheduled
+exports.schedulePost = async (req, res) => {
+  const { userId, content, platform, scheduled_time } = req.body;
+  await db.query(
+    "INSERT INTO posts (user_id, content, platform, scheduled_time, status) VALUES ($1, $2, $3, $4, $5)",
+    [userId, content, platform, scheduled_time, "scheduled"]
+  );
+  res.status(201).send("Post scheduled");
+};
+
+// Cron job to simulate posting (to be improved with API integration)
+cron.schedule("* * * * *", async () => {
+  const now = new Date();
+  const result = await db.query(
+    "SELECT * FROM posts WHERE scheduled_time <= $1 AND status = 'scheduled'",
+    [now]
+  );
+
+  for (const post of result.rows) {
+    // Simulate successful post
+    await db.query("UPDATE posts SET status = 'posted' WHERE id = $1", [post.id]);
+    console.log(`Posted to ${post.platform}:`, post.content);
+  }
+});
+
+// === server/routes/schedulerRoutes.js ===
+const express = require("express");
+const router = express.Router();
+const { schedulePost } = require("../controllers/schedulerController");
+
+router.post("/create", schedulePost);
+
+module.exports = router;
+
+// === server/db.js ===
+const { Pool } = require("pg");
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL
+});
+module.exports = pool;
+
+// === .env ===
+DATABASE_URL=postgresql://youruser:yourpass@localhost:5432/socialdb
+JWT_SECRET=your_jwt_secret
