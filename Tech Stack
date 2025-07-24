@@ -1,0 +1,12 @@
+Frontend: React.js (with Chart.js / Recharts for visualization)
+
+Backend: Node.js (Express.js)
+
+Database: PostgreSQL
+
+APIs: Twitter API, Instagram Graph API
+
+Authentication: JWT (JSON Web Token)
+
+Scheduler: node-cron or agenda.js
+
