@@ -1,0 +1,11 @@
+Twitter: Use Twitter API v2
+
+OAuth 2.0 for authentication
+
+Endpoints: GET /tweets, GET /users/:id, POST /tweets
+
+Instagram: Use Instagram Graph API
+
+Access via Facebook Developer Platform
+
+Endpoints: GET /me/media, POST /{ig-user-id}/media
