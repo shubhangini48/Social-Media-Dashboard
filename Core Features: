@@ -1,0 +1,41 @@
+ 1. User Authentication & Profiles
+Signup/Login using email and password
+
+JWT-based session management
+
+User profile dashboard (Profile Pic, Bio, Connected Accounts)
+
+📊 2. Data Visualization
+Pull metrics from Twitter & Instagram via REST APIs:
+
+Followers/Following
+
+Likes, Retweets, Comments
+
+Engagement rate
+
+Display trends using:
+
+Line Charts (growth over time)
+
+Pie Charts (engagement distribution)
+
+Bar Graphs (post-wise comparison)
+
+📆 3. Schedule and Post Content
+Connect to Twitter/Instagram (OAuth integration)
+
+Form to write a post, add images, and schedule time
+
+Cron job that posts automatically via APIs
+
+History of scheduled and posted content
+
+📚 4. Database Design (PostgreSQL)
+users (id, email, password_hash, name, etc.)
+
+social_accounts (user_id, platform, access_token, etc.)
+
+posts (user_id, content, scheduled_time, platform, status)
+
+metrics (account_id, date, followers, engagement, etc.)
