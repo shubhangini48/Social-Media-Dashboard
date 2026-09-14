@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import api from "../services/api";
+import api from "../service/api";
 import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {

@@ -19,7 +19,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import api from "../services/api";
+import api from "../service/api";
 
 const Analytics = () => {
   const [dashboard, setDashboard] = useState(null);

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LockKeyhole, Mail, ArrowRight } from "lucide-react";
 
-import api from "../services/api";
+import api from "../service/api";
 import { useAuth } from "../context/AuthContext";
 
 const Login = () => {

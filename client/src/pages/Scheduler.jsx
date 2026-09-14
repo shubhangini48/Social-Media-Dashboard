@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CalendarClock, Trash2, Plus } from "lucide-react";
-import api from "../services/api";
+import api from "../service/api";
 
 const Scheduler = () => {
   const [scheduledPosts, setScheduledPosts] = useState([]);

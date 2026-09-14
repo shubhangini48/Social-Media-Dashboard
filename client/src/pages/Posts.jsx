@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Edit3, Trash2, Plus, X } from "lucide-react";
-import api from "../services/api";
+import api from "../service/api";
 
 const emptyForm = {
   content: "",
