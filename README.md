@@ -33,11 +33,11 @@ A full-stack web application for managing social media content, scheduling posts
 
 ### Posts Management
 
-![Posts](screenshots/posts.png)
+![Post](screenshots/post.png)
 
 ### Scheduler
 
-![Scheduler](screenshots/scheduler.png)
+![Schedulers](screenshots/schedulers.png)
 
 ### Analytics
 
